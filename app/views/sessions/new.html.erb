@@ -1,0 +1,23 @@
+<header>
+  <div class="header_logo_and_btn">
+    Facenote
+    <%= link_to '新しいアカウントを作成', new_user_path %>
+  </div>
+</header>
+
+<h4>Facenoteにログイン</h4>
+<%= form_with(scope: :session, url: sessions_path, local: true) do |f| %>
+  <div class="signin_email">
+    <%= f.email_field :email %>
+  </div>
+  <div class="signin_password">
+    <%= f.password_field :password %>
+  </div>
+  <div class="signin_btn">
+    <%= f.submit 'ログイン' %>
+  </div>
+  <p>または</p>
+  <div class="signup_btn">
+    <%= link_to '新しいアカウントを作成', new_user_path %>
+  </div>
+<% end %>

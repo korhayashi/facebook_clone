@@ -1,0 +1,7 @@
+<header>
+  <div class="header_menu">
+    <%= link_to "#{current_user.family_name}#{current_user.first_name}", user_path(current_user.id) %>
+    <%= link_to 'ホーム', entries_path %>
+    <%= link_to 'ログアウト', session_path(current_user.id), method: :delete %>
+  </div>
+</header>
