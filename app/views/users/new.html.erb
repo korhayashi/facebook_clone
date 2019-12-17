@@ -32,7 +32,7 @@
     </div>
   <% end %>
 
-  <%= form_with(model: @user, local: true) do |f| %>
+  <%= form_with(model: @user, local: true, url: confirmation_screen) do |f| %>
     <div class="form_name">
       <%= f.text_field :family_name, placeholder: "姓" %>
       <%= f.text_field :first_name, placeholder: "名" %>

@@ -5,3 +5,74 @@
     <%= link_to 'ログアウト', session_path(current_user.id), method: :delete %>
   </div>
 </header>
+
+<div class="main">
+  <div class="form">
+    <p>投稿を作成</p>
+    <%= form_with(model: @entry, local: true, url: choose_index_or_edit) do |f| %>
+      <% if @entry.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= @entry.errors.count %>件のエラーがあります。</h2>
+          <ul>
+
+          <% @entry.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+          </ul>
+        </div>
+      <% end %>
+      <div class="form_content">
+        <div class="form_icon">
+          <% if current_user.user_image %>
+            <%= image_tag "/images/#{current_user.user_image}", class: 'form_user_icon' %>
+          <% else %>
+            <%= fa_icon 'user-circle', class: 'form_user_icon' %>
+          <% end %>
+        </div>
+        <div class="form_textarea">
+          <%= f.text_area :content, placeholder: "#{current_user.family_name}#{current_user.first_name}さん －今なにしてる？" %>
+        </div>
+      </div>
+      <div class="form_image">
+        <%= f.file_field :image %>
+        <%= image_tag(@entry.image.url, class: 'form_image_view') if @entry.image && @entry.image.url %>
+        <%= f.hidden_field :image_cache %>
+      </div>
+      <%= f.submit '投稿' %>
+    <% end %>
+  </div>
+
+  <div class="posts">
+    <% @entries.each do |entry| %>
+      <table>
+        <tr>
+          <td rowspan="2">
+            <div class="entry_icon">
+              <% if entry.user.user_image %>
+                <%= image_tag entry.user.user_image.url, class: 'form_user_icon' %>
+              <% else %>
+                <%= fa_icon 'user-circle', class: 'form_user_icon' %>
+              <% end %>
+            </div>
+          </td>
+          <td>
+            <%= "#{entry.user.family_name}#{entry.user.first_name}" %>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span class="created_at"><%= time_ago_in_words(entry.created_at)+'前' %></span>
+          </td>
+        </tr>
+      </table>
+        <div class="entry_content">
+          <%= entry.content %>
+        </div>
+        <% if entry.image %>
+          <div class="entry_image">
+            <%= image_tag entry.image.url, class: 'entry_image_view' %>
+          </div>
+        <% end %>
+    <% end %>
+  </div>
+</div>
