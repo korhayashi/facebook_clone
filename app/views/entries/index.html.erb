@@ -1,5 +1,6 @@
 <header>
   <div class="header_menu">
+    <%= fa_icon 'facebook-square', class: 'fn_icon' %>
     <%= link_to "#{current_user.family_name}#{current_user.first_name}", user_path(current_user.id) %>
     <%= link_to 'ホーム', entries_path %>
     <%= link_to 'ログアウト', session_path(current_user.id), method: :delete %>
@@ -68,10 +69,20 @@
         <div class="entry_content">
           <%= entry.content %>
         </div>
-        <% if entry.image %>
+        <% unless entry.image.blank? %>
           <div class="entry_image">
             <%= image_tag entry.image.url, class: 'entry_image_view' %>
           </div>
+        <% end %>
+        <% good = current_user.goods.find_by(entry_id: entry.id) %>
+        <% if good.present? %>
+          <%= link_to(good_path(id: good.id), method: :delete, class: 'btn btn_danger') do %>
+            <%= fa_icon 'thumbs-up', class: 'btn btn_remove_good', text: '解除' %>
+          <% end %>
+        <% else %>
+        <%= link_to(goods_path(entry_id: entry.id), method: :post, class: 'btn btn_primary') do %>
+          <%= fa_icon 'thumbs-up', class: 'btn btn_good', text: 'いいね！' %>
+        <% end %>
         <% end %>
     <% end %>
   </div>
