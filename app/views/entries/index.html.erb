@@ -65,6 +65,45 @@
           <%= fa_icon 'thumbs-up', class: 'btn btn_good', text: 'いいね！' %>
         <% end %>
         <% end %>
+        <% child_entries = Entry.where(parent_entry_id: entry.id) %>
+        <% if child_entries %>
+          <div class="child_entry">
+            <% child_entries.each do |child_entry| %>
+              <% if child_entry.user.user_image %>
+                <%= image_tag child_entry.user.user_image.url, class: 'form_user_icon' %>
+              <% else %>
+                <%= fa_icon 'user-circle', class: 'child_entry_user_icon' %>
+              <% end %>
+              <%= link_to "#{child_entry.user.family_name}#{child_entry.user.first_name}" %>
+              <span class="child_entry_content">
+                <%= child_entry.content %>
+              </span>
+            <% end %>
+          </div>
+        <% end %>
+        <div class="child_entry_form">
+          <%= form_with(model: @entry, local: true, url: choose_index_or_edit) do |f| %>
+            <div class="child_form_content">
+              <%= f.hidden_field :parent_entry_id, value: entry.id %>
+              <div class="form_icon">
+                <% if current_user.user_image %>
+                  <%= image_tag current_user.user_image.url, class: 'form_user_icon' %>
+                <% else %>
+                  <%= fa_icon 'user-circle', class: 'form_user_icon' %>
+                <% end %>
+              </div>
+              <div class="form_text">
+                <%= f.text_field :content, placeholder: 'コメントする...' %>
+              </div>
+            </div>
+            <div class="form_image">
+              <%= f.file_field :image %>
+              <%= image_tag(@entry.image.url, class: 'form_image_view') if @entry.image && @entry.image.url %>
+              <%= f.hidden_field :image_cache %>
+            </div>
+            <%= f.submit '投稿' %>
+          <% end %>
+        </div>
     <% end %>
   </div>
 </div>

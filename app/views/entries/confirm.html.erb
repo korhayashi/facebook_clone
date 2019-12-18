@@ -2,6 +2,9 @@
 
 <%= form_with(model: @entry, url: entries_path, local: true) do |f| %>
   <%= f.hidden_field :content %>
+  <% if params[:entry][:parent_entry_id] %>
+    <%= f.hidden_field :parent_entry_id %>
+  <% end %>
   <div class="confirm_content">
     <%= @entry.content %>
   </div>

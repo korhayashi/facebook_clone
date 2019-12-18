@@ -1,7 +1,8 @@
 class EntriesController < ApplicationController
   before_action :set_entry, only: [:edit, :update, :destroy]
   def index
-    @entries = Entry.order(created_at: :desc)
+    @entries = Entry.where(parent_entry_id: nil).order(created_at: :desc)
+    # 親記事を持たない投稿を全て取得
     if params[:back]
       @entry = Entry.new(entry_params)
     else
@@ -10,7 +11,7 @@ class EntriesController < ApplicationController
   end
 
   def confirm
-    @entries = Entry.order(created_at: :desc)
+    @entries = Entry.where(parent_entry_id: nil).order(created_at: :desc)
     @entry = current_user.entries.build(entry_params)
     # @entry = Entry.new(entry_params)
     # @entry.user_id = current_user.id
@@ -52,6 +53,6 @@ class EntriesController < ApplicationController
   end
 
   def entry_params
-    params.require(:entry).permit(:content, :image, :image_cache)
+    params.require(:entry).permit(:content, :parent_entry_id, :image, :image_cache)
   end
 end

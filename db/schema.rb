@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_17_124614) do
+ActiveRecord::Schema.define(version: 2019_12_18_144802) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 2019_12_17_124614) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id"
+    t.integer "parent_entry_id"
     t.index ["user_id"], name: "index_entries_on_user_id"
   end
 
@@ -36,10 +37,10 @@ ActiveRecord::Schema.define(version: 2019_12_17_124614) do
     t.string "first_name"
     t.string "email"
     t.string "password_digest"
-    t.string "birth_year"
-    t.string "birth_month"
-    t.string "birth_day"
-    t.string "gender"
+    t.integer "birth_year"
+    t.integer "birth_month"
+    t.integer "birth_day"
+    t.integer "gender"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "user_image"
