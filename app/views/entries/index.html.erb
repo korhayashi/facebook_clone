@@ -8,40 +8,8 @@
 </header>
 
 <div class="main">
-  <div class="form">
-    <p>投稿を作成</p>
-    <%= form_with(model: @entry, local: true, url: choose_index_or_edit) do |f| %>
-      <% if @entry.errors.any? %>
-        <div id="error_explanation">
-          <h2><%= @entry.errors.count %>件のエラーがあります。</h2>
-          <ul>
-
-          <% @entry.errors.full_messages.each do |msg| %>
-            <li><%= msg %></li>
-          <% end %>
-          </ul>
-        </div>
-      <% end %>
-      <div class="form_content">
-        <div class="form_icon">
-          <% if current_user.user_image %>
-            <%= image_tag "/images/#{current_user.user_image}", class: 'form_user_icon' %>
-          <% else %>
-            <%= fa_icon 'user-circle', class: 'form_user_icon' %>
-          <% end %>
-        </div>
-        <div class="form_textarea">
-          <%= f.text_area :content, placeholder: "#{current_user.family_name}#{current_user.first_name}さん －今なにしてる？" %>
-        </div>
-      </div>
-      <div class="form_image">
-        <%= f.file_field :image %>
-        <%= image_tag(@entry.image.url, class: 'form_image_view') if @entry.image && @entry.image.url %>
-        <%= f.hidden_field :image_cache %>
-      </div>
-      <%= f.submit '投稿' %>
-    <% end %>
-  </div>
+  <p>投稿を作成</p>
+  <%= render 'form' %>
 
   <div class="posts">
     <% @entries.each do |entry| %>
@@ -66,6 +34,10 @@
           </td>
         </tr>
       </table>
+      <% if current_user.id == entry.user_id %>
+        <%= link_to '投稿の編集', edit_entry_path(entry.id) %>
+        <%= link_to '削除', entry_path(entry.id), method: :delete, data: { confirm: '本当に削除してよろしいですか？' } %>
+      <% end %>
         <div class="entry_content">
           <%= entry.content %>
         </div>
@@ -74,6 +46,15 @@
             <%= image_tag entry.image.url, class: 'entry_image_view' %>
           </div>
         <% end %>
+        <% good_users = entry.good_users %>
+        <% unless good_users.blank? %>
+          <div class="good_users">
+            <%= image_tag '/images/good.png', class: 'good_users_icon' %>
+            <% good_users.each do |u| %>
+              <%= link_to "#{u.family_name}#{u.first_name}", user_path(u.id) %>
+            <% end %>
+          </div>
+          <% end %>
         <% good = current_user.goods.find_by(entry_id: entry.id) %>
         <% if good.present? %>
           <%= link_to(good_path(id: good.id), method: :delete, class: 'btn btn_danger') do %>

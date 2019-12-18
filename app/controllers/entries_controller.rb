@@ -1,4 +1,5 @@
 class EntriesController < ApplicationController
+  before_action :set_entry, only: [:edit, :update, :destroy]
   def index
     @entries = Entry.order(created_at: :desc)
     if params[:back]
@@ -25,6 +26,23 @@ class EntriesController < ApplicationController
     if @entry.save
       redirect_to entries_path
     end
+  end
+
+  def edit
+
+  end
+
+  def update
+    if @entry.update(entry_params)
+      redirect_to entries_path, notice: '投稿を編集しました'
+    else
+      render :edit
+    end
+  end
+
+  def destroy
+    @entry.destroy
+    redirect_to entries_path, notice:'投稿を削除しました'
   end
 
   private
