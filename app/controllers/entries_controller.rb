@@ -1,7 +1,8 @@
 class EntriesController < ApplicationController
   before_action :set_entry, only: [:edit, :update, :destroy]
   def index
-    @entries = Entry.where(parent_entry_id: nil).order(created_at: :desc)
+    @all_entry = Entry.all
+    @entries = @all_entry.where(parent_entry_id: nil).order(created_at: :desc)
     # 親記事を持たない投稿を全て取得
     if params[:back]
       @entry = Entry.new(entry_params)

@@ -16,7 +16,7 @@
         <% if current_user.user_image %>
           <%= image_tag "/images/#{current_user.user_image}", class: 'form_user_icon' %>
         <% else %>
-          <%= fa_icon 'user-circle', class: 'form_user_icon' %>
+          <%= icon 'fas', 'user-circle', class: 'form_user_icon' %>
         <% end %>
       </div>
       <div class="form_textarea">

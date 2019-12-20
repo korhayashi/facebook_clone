@@ -22,6 +22,14 @@ class UsersController < ApplicationController
     end
   end
 
+  def show
+    @user = User.find(params[:id])
+    @entry = Entry.new
+    @all_entry = Entry.all
+    @image_entries = @all_entry.where(user_id: @user.id).where.not(image: '').order(created_at: :desc)
+    @entries = @all_entry.where(user_id: @user.id).order(created_at: :desc)
+  end
+
   private
 
   def user_params

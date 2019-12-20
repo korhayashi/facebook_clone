@@ -1,6 +1,6 @@
 <header>
   <div class="header_menu">
-    <%= fa_icon 'facebook-square', class: 'fn_icon' %>
+    <%= icon 'fab', 'facebook-square', class: 'fn_icon' %>
     <%= link_to "#{current_user.family_name}#{current_user.first_name}", user_path(current_user.id) %>
     <%= link_to 'ホーム', entries_path %>
     <%= link_to 'ログアウト', session_path(current_user.id), method: :delete %>
@@ -11,8 +11,8 @@
   <p>投稿を作成</p>
   <%= render 'form' %>
 
-  <div class="posts">
-    <% @entries.each do |entry| %>
+  <% @entries.each do |entry| %>
+    <div class="posts">
       <table>
         <tr>
           <td rowspan="2">
@@ -20,7 +20,7 @@
               <% if entry.user.user_image %>
                 <%= image_tag entry.user.user_image.url, class: 'form_user_icon' %>
               <% else %>
-                <%= fa_icon 'user-circle', class: 'form_user_icon' %>
+                <%= icon 'fas', 'user-circle', class: 'form_user_icon' %>
               <% end %>
             </div>
           </td>
@@ -30,7 +30,13 @@
         </tr>
         <tr>
           <td>
-            <span class="created_at"><%= time_ago_in_words(entry.created_at)+'前' %></span>
+            <span class="created_at">
+              <% if time_ago_in_words(entry.created_at).include?('以内') %>
+                <%= time_ago_in_words(entry.created_at) %>
+              <% else %>
+                <%= time_ago_in_words(entry.created_at)+'前' %>
+              <% end %>
+            </span>
           </td>
         </tr>
       </table>
@@ -58,26 +64,30 @@
         <% good = current_user.goods.find_by(entry_id: entry.id) %>
         <% if good.present? %>
           <%= link_to(good_path(id: good.id), method: :delete, class: 'btn btn_danger') do %>
-            <%= fa_icon 'thumbs-up', class: 'btn btn_remove_good', text: '解除' %>
+            <%= icon 'fas', 'thumbs-up', class: 'btn btn_remove_good' %>
+            解除
           <% end %>
         <% else %>
         <%= link_to(goods_path(entry_id: entry.id), method: :post, class: 'btn btn_primary') do %>
-          <%= fa_icon 'thumbs-up', class: 'btn btn_good', text: 'いいね！' %>
+          <%= icon 'fas', 'thumbs-up', class: 'btn btn_good' %>
+          いいね！
         <% end %>
         <% end %>
-        <% child_entries = Entry.where(parent_entry_id: entry.id) %>
+        <% child_entries = @all_entry.where(parent_entry_id: entry.id) %>
         <% if child_entries %>
           <div class="child_entry">
             <% child_entries.each do |child_entry| %>
-              <% if child_entry.user.user_image %>
-                <%= image_tag child_entry.user.user_image.url, class: 'form_user_icon' %>
-              <% else %>
-                <%= fa_icon 'user-circle', class: 'child_entry_user_icon' %>
-              <% end %>
-              <%= link_to "#{child_entry.user.family_name}#{child_entry.user.first_name}" %>
-              <span class="child_entry_content">
-                <%= child_entry.content %>
-              </span>
+              <div class="child_entry_name">
+                <% if child_entry.user.user_image %>
+                  <%= image_tag child_entry.user.user_image.url, class: 'form_user_icon' %>
+                <% else %>
+                  <%= icon 'fas', 'user-circle', class: 'child_entry_user_icon' %>
+                <% end %>
+                <%= link_to "#{child_entry.user.family_name}#{child_entry.user.first_name}", user_path(child_entry.user.id) %>
+                <span class="child_entry_content">
+                  <%= child_entry.content %>
+                </span>
+              </div>
             <% end %>
           </div>
         <% end %>
@@ -89,7 +99,7 @@
                 <% if current_user.user_image %>
                   <%= image_tag current_user.user_image.url, class: 'form_user_icon' %>
                 <% else %>
-                  <%= fa_icon 'user-circle', class: 'form_user_icon' %>
+                  <%= icon 'fas', 'user-circle', class: 'form_user_icon' %>
                 <% end %>
               </div>
               <div class="form_text">

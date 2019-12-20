@@ -38,7 +38,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'bcrypt', '3.1.11'
 
 # font-awesome使用
-gem "font-awesome-rails"
+gem 'font-awesome-sass', '~> 5.4.1'
 
 # 画像アップロード
 gem 'carrierwave'
