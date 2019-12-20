@@ -115,7 +115,14 @@
                     <% else %>
                       <%= link_to(goods_path(entry_id: child_entry.id), method: :post, class: 'btn btn_primary') do %>
                         いいね！
+                      <% end %>
                     <% end %>
+                  </span>
+                  <span class="created_at">
+                    <% if time_ago_in_words(entry.created_at).include?('以内') %>
+                      <%= time_ago_in_words(entry.created_at) %>
+                    <% else %>
+                      <%= time_ago_in_words(entry.created_at)+'前' %>
                     <% end %>
                   </span>
                 </div>

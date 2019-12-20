@@ -90,7 +90,7 @@
         <% if child_entries %>
           <div class="child_entry">
             <% child_entries.each do |child_entry| %>
-              <div class="child_entry_name">
+              <div class="child_entry_top">
                 <% if child_entry.user.user_image %>
                   <%= image_tag child_entry.user.user_image.url, class: 'form_user_icon' %>
                 <% else %>
@@ -100,6 +100,45 @@
                 <span class="child_entry_content">
                   <%= child_entry.content %>
                 </span>
+                <span class="child_entry_good_view">
+                  <% child_good_users = child_entry.good_users %>
+                  <% unless child_good_users.blank? %>
+                    <span class="child_good_users">
+                      <%= image_tag '/images/good.png', class: 'good_users_icon' %>
+                      <%= child_good_users.count %>
+                      <% child_good_users.each do |u| %>
+                        <%= "#{u.family_name}#{u.first_name}" %>
+                      <% end %>
+                    </span>
+                  <% end %>
+                </span>
+                <% if current_user.id == child_entry.user_id %>
+                  <span class="child_entry_edit_or_delete">
+                    <%= link_to '編集', edit_entry_path(child_entry.id) %>
+                    <%= link_to '削除', entry_path(child_entry.id), method: :delete, data: { confirm: '本当に削除してよろしいですか？' } %>
+                  </span>
+                <% end %>
+                <div class="child_entry_under">
+                  <span class="child_entry_good">
+                    <% child_good = current_user.goods.find_by(entry_id: child_entry.id) %>
+                    <% if child_good.present? %>
+                      <%= link_to(good_path(id: child_good.id), method: :delete, class: 'btn btn_danger') do %>
+                        解除
+                      <% end %>
+                    <% else %>
+                      <%= link_to(goods_path(entry_id: child_entry.id), method: :post, class: 'btn btn_primary') do %>
+                        いいね！
+                    <% end %>
+                    <% end %>
+                  </span>
+                  <span class="created_at">
+                    <% if time_ago_in_words(entry.created_at).include?('以内') %>
+                      <%= time_ago_in_words(entry.created_at) %>
+                    <% else %>
+                      <%= time_ago_in_words(entry.created_at)+'前' %>
+                    <% end %>
+                  </span>
+                </div>
               </div>
             <% end %>
           </div>

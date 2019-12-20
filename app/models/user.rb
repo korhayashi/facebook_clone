@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   has_many :entries
   has_many :goods, dependent: :destroy
+  has_many :friends, dependent: :destroy
   validates :family_name, presence: true, length: { maximum: 15 }
   validates :first_name, presence: true, length: { maximum: 15 }
   validates :email, presence: true, length: { maximum: 255 },

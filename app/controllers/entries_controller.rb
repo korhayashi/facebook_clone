@@ -1,5 +1,8 @@
 class EntriesController < ApplicationController
   before_action :set_entry, only: [:edit, :update, :destroy]
+  before_action :authenticate_user
+  before_action :ensure_correct_user, only: [:edit, :update, :destroy]
+
   def index
     @all_entry = Entry.all
     @entries = @all_entry.where(parent_entry_id: nil).order(created_at: :desc)
@@ -55,5 +58,11 @@ class EntriesController < ApplicationController
 
   def entry_params
     params.require(:entry).permit(:content, :parent_entry_id, :image, :image_cache)
+  end
+
+  def ensure_correct_user
+    unless current_user.id == params[:id]
+      redirect_to entries_path
+    end
   end
 end
