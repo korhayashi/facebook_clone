@@ -21,6 +21,7 @@
   <h1>新規アカウントを作成</h1>
   <h4>簡単に登録できます。</h4>
 
+  <%= form_with(model: @user, local: true, url: confirmation_screen) do |f| %>
   <% if @user.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@user.errors.count, "error") %> prohibited this @user from being saved:</h2>
@@ -32,7 +33,6 @@
     </div>
   <% end %>
 
-  <%= form_with(model: @user, local: true, url: confirmation_screen) do |f| %>
     <div class="form_name">
       <%= f.text_field :family_name, placeholder: "姓" %>
       <%= f.text_field :first_name, placeholder: "名" %>

@@ -7,30 +7,13 @@
   </div>
 </header>
 
-<% if current_user.id == @user.id %>
-  <%= link_to edit_user_path(@user.id) do %>
-    <% if @user.user_image %>
-      <%= image_tag @user.user_image.url, class: 'prof_user_icon' %>
-    <% else %>
-      <%= icon 'fas', 'user-circle', class: 'prof_user_icon' %>
-    <% end %>
-  <% end %>
-  <% else %>
-    <% if @user.user_image %>
-      <%= image_tag @user.user_image.url, class: 'prof_user_icon' %>
-    <% else %>
-      <%= icon 'fas', 'user-circle', class: 'prof_user_icon' %>
-    <% end %>
+<% if @user.user_image %>
+  <%= image_tag @user.user_image.url, class: 'prof_user_icon' %>
+<% else %>
+  <%= icon 'fas', 'user-circle', class: 'prof_user_icon' %>
 <% end %>
 <%= @user.family_name %>
 <%= @user.first_name %>
-
-<% if current_user.id == @user.id %>
-  <%= link_to edit_user_path(@user.id) do %>
-    <%= icon 'fas', 'pen', class: 'btn btn_edit' %>
-    プロフィールを編集
-  <% end %>
-<% end %>
 
 <div class="has_images">
   <%= icon 'fas', 'image', class: 'prof_image' %>

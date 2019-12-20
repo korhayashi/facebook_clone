@@ -14,7 +14,7 @@
     <div class="form_content">
       <div class="form_icon">
         <% if current_user.user_image %>
-          <%= image_tag "/images/#{current_user.user_image}", class: 'form_user_icon' %>
+          <%= image_tag current_user.user_image.url, class: 'form_user_icon' %>
         <% else %>
           <%= icon 'fas', 'user-circle', class: 'form_user_icon' %>
         <% end %>

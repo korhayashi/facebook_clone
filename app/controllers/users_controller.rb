@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  before_action :set_user, only: [:show]
+
   def new
     @user = User.new
   end
@@ -23,11 +25,10 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find(params[:id])
     @entry = Entry.new
     @all_entry = Entry.all
     @image_entries = @all_entry.where(user_id: @user.id).where.not(image: '').order(created_at: :desc)
-    @entries = @all_entry.where(user_id: @user.id).order(created_at: :desc)
+    @entries = @all_entry.where(user_id: @user.id).where(parent_entry_id: nil).order(created_at: :desc)
   end
 
   private
@@ -36,5 +37,9 @@ class UsersController < ApplicationController
     params.require(:user).permit(:family_name, :first_name, :email,
                                  :password, :birth_year, :birth_month,
                                  :birth_day, :gender)
+  end
+
+  def set_user
+    @user = User.find(params[:id])
   end
 end
