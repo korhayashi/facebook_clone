@@ -6,6 +6,7 @@ class EntriesController < ApplicationController
   def index
     @all_entry = Entry.all
     @entries = @all_entry.where(parent_entry_id: nil).order(created_at: :desc)
+    @child_entries = @all_entry.where.not(parent_entry_id: nil)
     # 親記事を持たない投稿を全て取得
     if params[:back]
       @entry = Entry.new(entry_params)

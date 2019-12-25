@@ -16,3 +16,9 @@
 
  @import "font-awesome-sprockets";
  @import "font-awesome";
+
+.clearfix:after {
+  content: "";
+  display: block;
+  clear: both;
+}

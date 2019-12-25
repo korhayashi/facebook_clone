@@ -86,7 +86,7 @@
           いいね！
         <% end %>
         <% end %>
-        <% child_entries = @all_entry.where(parent_entry_id: entry.id) %>
+        <% child_entries = @child_entries.where(parent_entry_id: entry.id) %>
         <% if child_entries %>
           <div class="child_entry">
             <% child_entries.each do |child_entry| %>

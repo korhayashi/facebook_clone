@@ -1,23 +1,33 @@
-<header>
-  <div class="header_logo_and_btn">
-    Facenote
-    <%= link_to '新しいアカウントを作成', new_user_path %>
+<header class="user_header">
+  <div class="user_header_container">
+    <span class="header_logo">
+      facenote
+    </span>
+      <%= link_to '新しいアカウントを作成', new_user_path, class: 'btn btn_signup main_btn_signup' %>
   </div>
 </header>
 
-<h4>Facenoteにログイン</h4>
-<%= form_with(scope: :session, url: sessions_path, local: true) do |f| %>
-  <div class="signin_email">
-    <%= f.email_field :email %>
+<div class="main">
+  <div class="signin_main_container">
+    <div class="signin_form">
+      <div class="signin_form_container">
+        <h4>Facenoteにログイン</h4>
+        <%= form_with(scope: :session, url: sessions_path, local: true) do |f| %>
+          <div class="signin_email">
+            <%= f.email_field :email, placeholder: 'メールアドレス' %>
+          </div>
+          <div class="signin_password">
+            <%= f.password_field :password, placeholder: 'パスワード' %>
+          </div>
+          <div class="signin_btn">
+            <%= f.submit 'ログイン', class: 'btn btn_login' %>
+          </div>
+          <div class="title_border">または</div>
+          <div class="signup_btn">
+            <%= link_to '新しいアカウントを作成', new_user_path, class: 'btn btn_signup main_btn_signup' %>
+          </div>
+        <% end %>
+      </div>
+    </div>
   </div>
-  <div class="signin_password">
-    <%= f.password_field :password %>
-  </div>
-  <div class="signin_btn">
-    <%= f.submit 'ログイン' %>
-  </div>
-  <p>または</p>
-  <div class="signup_btn">
-    <%= link_to '新しいアカウントを作成', new_user_path %>
-  </div>
-<% end %>
+</div>

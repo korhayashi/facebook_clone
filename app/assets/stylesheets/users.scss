@@ -1,3 +1,289 @@
-// Place all the styles related to the users controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+$bg_color: #ebedf0;
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  width: 100%;
+  height: 100%;
+  font-size: 62.5%;
+}
+
+body {
+  margin: 0;
+  width: 100%;
+  font-size: 1.7rem;
+}
+
+.clearfix::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+input::placeholder {
+  color: #90949c;
+}
+
+.btn {
+  border-radius: 1px;
+  cursor: pointer;
+
+  &:hover {
+    transition: 0.3s;
+  }
+  &:active {
+    transform: scale(0.98);
+    transition: 0.3s;
+  }
+}
+
+.btn_signup {
+  color: #fff;
+  background-color: #40b73b;
+  border-radius: 3px;
+  text-decoration: none;
+}
+
+.user_header {
+  width: 100%;
+  height: 8.3rem;
+  padding: 2rem;
+  border-bottom: solid #113781 1px;
+  background: linear-gradient(#4e69a2, #3b5998);
+}
+
+.user_header_container {
+  margin: 0 auto;
+  width: 98rem;
+  position: relative;
+
+  .header_logo {
+    color: #fff;
+    font: tahoma;
+    font-size: 3.3rem;
+    font-weight: bold;
+  }
+  .signin_header_logo {
+    float: left;
+  }
+  .header_login {
+    float:right;
+    color: #fff;
+    font-size: 1.2rem;
+  }
+  .btn_signup {
+    width: 16rem;
+    margin-left: 1rem;
+    padding: 0.8rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    position: absolute;
+    top: 20%;
+
+      &:hover {
+        background-color: darken(#40b73b, 5%);
+      }
+      &:active {
+        background-color: darken(#40b73b, 10%);
+    }
+  }
+}
+
+  input[type="email"] {
+    height: 2.3rem;
+    margin-right: 2rem;
+    border: solid #000 1px;
+  }
+  input[type="password"] {
+    height: 2.3rem;
+    margin-right: 1rem;
+    border: solid #000 1px;
+  }
+  input[type="submit"] {
+    background-color: #4167b0;
+    color: #fff;
+    border: solid #28487b 1px;
+  }
+
+.main {
+  min-height: 100vh;
+  background-color: $bg_color;
+  .btn_signup {
+    width: 20rem;
+    height: 4rem;
+    padding: 1rem;
+    font-size: 1.3rem;
+    font-weight: bold;
+    display: inline-block;
+
+    &:hover {
+      background-color: darken(#40b73b, 5%);
+    }
+    &:active {
+      background-color: darken(#40b73b, 10%);
+    }
+  }
+}
+
+.main_container {
+  width: 40rem;
+  margin: 0 auto;
+  padding: 2.5rem;
+
+  h1 {
+    width: 40rem;
+    margin: 0;
+    color: #1d2129;
+    font-size: 4rem;
+  }
+  h4 {
+    margin: 0  0 7px 0;
+    color: #4b4f56;
+    font-size: 2rem;
+    font-weight: normal;
+  }
+  p {
+    margin: 1rem 0 0 0;
+    color: #90949c;
+    font-weight: bold;
+  }
+  input[type="text"] {
+    width: 19.3rem;
+  }
+  input[type="email"], input[type="password"] {
+    width: 40rem;
+  }
+  input[type="text"],
+  input[type="email"],
+  input[type="password"] {
+    height: 3.3rem;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    font-size: 1.7rem;
+    border: solid #bdc7d8 1px;
+    border-radius: 5px;
+  }
+  select {
+    height: 2.5rem;
+    border: solid #bdc7d8 1px;
+  }
+  input[type="submit"] {
+    width: 19.3rem;
+    height: 4rem;
+    margin-top: 3rem;
+    background: linear-gradient(#67ae55, #578843);
+    color: #fff;
+    font-size: 1.7rem;
+    font-weight: bold;
+    border: solid 1px;
+    border-color: #3b6e22 #3b6e22 #2c5115;
+    border-radius: 5px;
+    box-shadow: inset 0 1px 1px #a4e388;
+    &:active {
+      margin-top: 3.1rem;
+    }
+  }
+  .form_name {
+    width: 40rem;
+  }
+  #user_family_name {
+    margin-right: 8px;
+  }
+}
+
+// ユーザー登録確認ページ
+.confirm {
+  min-height: 100vh;
+  padding-top: 3rem;
+  background-color: $bg_color;
+}
+
+.confirm_container {
+  width: 38rem;
+  margin: 0 auto;
+  h3 {
+    margin: 0 0 1rem 0;
+  }
+  .user_info {
+    width: 50%;
+  }
+  .user_info_value {
+    width: 50%;
+  }
+  .confirm_button {
+    text-align: center;
+  }
+}
+
+// ログインページ
+.signin_main_container {
+  padding: 5rem;
+}
+
+.signin_form {
+  width: 61.5rem;
+  margin: 3rem auto;
+  padding: 3.7rem;
+  background-color: #fff;
+  text-align: center;
+  border: 1px solid #dddfe2;
+  border-radius: 3px;
+
+  h4 {
+    margin: 0 0 2rem 0;
+    font-weight: normal;
+  }
+  input[type="email"], input[type="password"] {
+    width: 30.4rem;
+    height: 3.3rem;
+    margin-bottom: 1.4rem;
+    padding: 1rem;
+    font-size: 1.4rem;
+    border: solid #bdc7d8 1px;
+  }
+  .btn_login {
+    width: 30.4rem;
+    padding: 1.1rem;
+    color: #fff;
+    font-size: 1.4rem;
+    font-weight: bold;
+    background-color: #4167b0;
+    border-radius: 3px;
+    &:hover {
+      background-color: darken(#4167b0, 5%);
+    }
+    &:active {
+      background-color: darken(#4167b0, 10%);
+    }
+  }
+  .signin_form_container {
+    width: 30.4rem;
+    margin: 0 auto;
+  }
+  .title_border {
+    margin: 2rem 0;
+    color: #4b4f56;
+    font-size: 1.3rem;
+    display: flex;
+  	align-items: center;
+  }
+  .title_border:before,
+  .title_border:after {
+    content: "";
+  	flex-grow: 1;
+  	height: 1px;
+  	background: #ccd0d5;
+  	display: block;
+  }
+  .title_border:before {
+    margin-right: 2rem;
+  }
+  .title_border:after {
+    margin-left: 2rem;
+  }
+}

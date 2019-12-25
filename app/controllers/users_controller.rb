@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show]
+  before_action :set_user, only: [:show, :edit]
   before_action :authenticate_user, only: [:show]
   before_action :logged_in_member, except: [:show]
 
@@ -31,6 +31,11 @@ class UsersController < ApplicationController
     @all_entry = Entry.all
     @image_entries = @all_entry.where(user_id: @user.id).where.not(image: '').order(created_at: :desc)
     @entries = @all_entry.where(user_id: @user.id).where(parent_entry_id: nil).order(created_at: :desc)
+    @child_entries = @all_entry.where.not(parent_entry_id: nil)
+  end
+
+  def edit
+    
   end
 
   private

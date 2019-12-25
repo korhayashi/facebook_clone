@@ -1,7 +1,6 @@
 class User < ApplicationRecord
   has_many :entries
   has_many :goods, dependent: :destroy
-  has_many :friends, dependent: :destroy
   validates :family_name, presence: true, length: { maximum: 15 }
   validates :first_name, presence: true, length: { maximum: 15 }
   validates :email, presence: true, length: { maximum: 255 },
@@ -9,7 +8,8 @@ class User < ApplicationRecord
                     uniqueness: true
   before_validation { email.downcase! }
   has_secure_password
-  validates :password, presence: true, length: { minimum: 6 }
+  validates :password, presence: true, length: { minimum: 6 }, on: :create
+  validates :password, length: { minimum: 6 }, allow_blank: true, on: :update
   validates :birth_year, presence: true
   validates :birth_month, presence: true
   validates :birth_day, presence: true
