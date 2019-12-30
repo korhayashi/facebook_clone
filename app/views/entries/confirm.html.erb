@@ -1,15 +1,21 @@
-<h3>以下の内容で送信してもよろしいですか？</h3>
+<div class="confirm">
+  <div class="confirm_container">
+    <h3>以下の内容で送信してもよろしいですか？</h3>
 
-<%= form_with(model: @entry, url: entries_path, local: true) do |f| %>
-  <%= f.hidden_field :content %>
-  <% if params[:entry][:parent_entry_id] %>
-    <%= f.hidden_field :parent_entry_id %>
-  <% end %>
-  <div class="confirm_content">
-    <%= @entry.content %>
+    <%= form_with(model: @entry, url: entries_path, local: true) do |f| %>
+      <%= f.hidden_field :content %>
+      <% if params[:entry][:parent_entry_id] %>
+        <%= f.hidden_field :parent_entry_id %>
+      <% end %>
+      <div class="confirm_content">
+        <%= @entry.content %>
+      </div>
+      <div class="image">
+        <%= image_tag(@entry.image.url, class: 'confirm_image') if @entry.image && @entry.image.url %>
+      </div>
+      <%= f.hidden_field :image_cache %>
+      <%= link_to '戻る', 'javascript:history.back()', class: 'btn_back' %>
+      <%= f.submit '投稿', class: 'btn_submit' %>
+    <% end %>
   </div>
-  <%= image_tag(@entry.image.url, class: 'confirm_image') if @entry.image && @entry.image.url %>
-  <%= f.hidden_field :image_cache %>
-  <%= link_to '戻る', 'javascript:history.back()' %>
-  <%= f.submit '投稿' %>
-<% end %>
+</div>

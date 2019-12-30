@@ -1,0 +1,31 @@
+<div class="confirm">
+  <div class="confirm_container">
+    <%= form_with(model: @user, local: true) do |f| %>
+      <ul>
+      <% @user.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+      <div class="now_user_icon">
+        <% unless @user.user_image.blank? %>
+          <%= image_tag @user.user_image.url, class: 'prof_edit_icon user_icon' %>
+        <% else %>
+          <%= icon 'fas', 'user-circle', class: 'prof_edit_icon user_icon' %>
+        <% end %>
+      </div>
+      <div clas="user_icon_edit">
+        <%= f.label :新しいユーザーアイコン %>
+        <%= f.file_field :user_image %>
+      </div>
+      <%= f.hidden_field :family_name %>
+      <%= f.hidden_field :first_name%>
+      <%= f.hidden_field :email %>
+      <%= f.hidden_field :birth_year %>
+      <%= f.hidden_field :birth_month %>
+      <%= f.hidden_field :birth_day %>
+      <%= f.hidden_field :gender %>
+      <%= link_to '戻る', 'javascript:history.back()', class: 'btn_back' %>
+      <%= f.submit '送信', class: 'btn_submit' %>
+    <% end %>
+  </div>
+</div>

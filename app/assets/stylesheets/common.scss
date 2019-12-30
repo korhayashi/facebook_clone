@@ -1,0 +1,39 @@
+$bg_color: #ebedf0;
+$fn_color: #4167b0;
+$border_color: #dddfe2;
+$sub_font: #646a73;
+$icon_color: #c7cacf;
+
+.clearfix:after {
+ content: "";
+ display: block;
+ clear: both;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  width: 100%;
+  height: 100%;
+  font-size: 62.5%;
+}
+
+body {
+  margin: 0;
+  width: 100%;
+  font-size: 1.7rem;
+}
+
+#error_explanation, .danger, .notice {
+  color: $sub_font;
+  font-size: 1.3rem;
+  text-align: center;
+  ul {
+    li {
+      list-style: none;
+      margin: 0;
+    }
+  }
+}

@@ -1,2 +1,6 @@
-<%= render 'form' %>
-<%= link_to '戻る', 'javascript:history.back()' %>
+<div class="confirm">
+  <%= render 'form' %>
+  <div class="edit_btn">
+    <%= link_to '戻る', 'javascript:history.back()', class: 'btn_back' %>
+  </div>
+</div>

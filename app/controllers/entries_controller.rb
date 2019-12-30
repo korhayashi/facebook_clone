@@ -1,13 +1,13 @@
 class EntriesController < ApplicationController
   before_action :set_entry, only: [:edit, :update, :destroy]
   before_action :authenticate_user
-  before_action :ensure_correct_user, only: [:edit, :update, :destroy]
+  before_action :wrong_posted_by, only: [:edit, :update, :destroy]
 
   def index
     @all_entry = Entry.all
     @entries = @all_entry.where(parent_entry_id: nil).order(created_at: :desc)
     @child_entries = @all_entry.where.not(parent_entry_id: nil)
-    # 親記事を持たない投稿を全て取得
+    # 親記事を持つ投稿を全て取得
     if params[:back]
       @entry = Entry.new(entry_params)
     else
@@ -16,7 +16,9 @@ class EntriesController < ApplicationController
   end
 
   def confirm
-    @entries = Entry.where(parent_entry_id: nil).order(created_at: :desc)
+    @all_entry = Entry.all
+    @entries = @all_entry.where(parent_entry_id: nil).order(created_at: :desc)
+    @child_entries = @all_entry.where.not(parent_entry_id: nil)
     @entry = current_user.entries.build(entry_params)
     # @entry = Entry.new(entry_params)
     # @entry.user_id = current_user.id

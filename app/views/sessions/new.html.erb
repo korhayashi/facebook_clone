@@ -9,6 +9,9 @@
 
 <div class="main">
   <div class="signin_main_container">
+    <% flash.each do |key, value| %>
+      <%= content_tag(:div, value, class: "#{key}") %>
+    <% end %>
     <div class="signin_form">
       <div class="signin_form_container">
         <h4>Facenoteにログイン</h4>

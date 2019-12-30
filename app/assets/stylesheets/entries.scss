@@ -1,4 +1,122 @@
+.user_icon {
+  color: #c7cacf;
+  border-radius: 10rem;
+}
+
+.form_user_icon {
+  width: 4.5rem;
+  height: 4.5rem;
+  font-size: 4.5rem;
+}
+
 .good_users_icon {
   width: 20px;
-  // height: 22px;
+}
+
+.rep_user_icon {
+  width: 3.5rem;
+  height: 3.5rem;
+  font-size: 3.5rem;
+}
+
+.entry_image_view {
+  width: 50rem;
+  height: 50rem;
+}
+
+.rep_entry_image_view {
+  width: 17rem;
+  height: 20rem;
+  border-radius: 2rem;
+  border: 1px solid $border_color;
+}
+
+.btn_submit {
+  margin-top: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: $fn_color;
+  border: 0;
+  border-radius: 0.3rem;
+  color: #fff;
+  cursor: pointer;
+}
+
+.top_main {
+  padding-top: 0.5rem;
+  padding-bottom: 5rem;
+  background-color: $bg_color;
+}
+
+.top_main_container {
+  width: 54rem;
+  margin: 5rem auto;
+}
+
+.post {
+  a {
+    text-decoration: none;
+  }
+}
+
+.form_content {
+  width: 54rem;
+  margin: 0 auto;
+  padding: 1.5rem;
+  background-color: #fff;
+  border: 1px solid $border_color;
+  border-radius: 0.4rem;
+
+  input[type="submit"] {
+    width: 100%;
+    font-weight: bold;
+  }
+}
+
+.form_head {
+  display: flex;
+  align-items: center;
+
+  textarea {
+    width: 46rem;
+    height: 7rem;
+    padding: 1rem;
+    font-size: 1.4rem;
+    border: 0;
+  }
+}
+
+.form {
+  margin: 0 auto;
+}
+
+.form_image_view {
+  max-width: 30rem;
+}
+
+// 編集画面
+
+.edit_btn {
+  text-align: center;
+}
+
+// 確認画面
+
+.btn_back {
+  margin-top: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-size: 1.1rem;
+  text-decoration: none;
+  background-color: $fn_color;
+  display: inline-block;
+  border: 0;
+  border-radius: 0.3rem;
+  color: #fff;
+}
+
+.confirm_content {
+  margin-bottom: 3rem;
+}
+
+.confirm_image {
+  max-width: 30rem;
 }

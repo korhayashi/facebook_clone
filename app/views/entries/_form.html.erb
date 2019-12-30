@@ -2,7 +2,6 @@
   <%= form_with(model: @entry, local: true, url: choose_index_or_edit) do |f| %>
     <% if @entry.errors.any? %>
       <div id="error_explanation">
-        <h2><%= @entry.errors.count %>件のエラーがあります。</h2>
         <ul>
 
         <% @entry.errors.full_messages.each do |msg| %>
@@ -12,22 +11,24 @@
       </div>
     <% end %>
     <div class="form_content">
-      <div class="form_icon">
-        <% if current_user.user_image %>
-          <%= image_tag current_user.user_image.url, class: 'form_user_icon' %>
-        <% else %>
-          <%= icon 'fas', 'user-circle', class: 'form_user_icon' %>
-        <% end %>
+      <div class="form_head">
+        <div class="form_icon">
+          <% unless current_user.user_image.blank? %>
+            <%= image_tag current_user.user_image.url, class: 'form_user_icon user_icon' %>
+          <% else %>
+            <%= icon 'fas', 'user-circle', class: 'form_user_icon user_icon' %>
+          <% end %>
+        </div>
+        <div class="form_textarea">
+          <%= f.text_area :content, placeholder: "#{current_user.family_name}#{current_user.first_name}さん －今なにしてる？" %>
+        </div>
       </div>
-      <div class="form_textarea">
-        <%= f.text_area :content, placeholder: "#{current_user.family_name}#{current_user.first_name}さん －今なにしてる？" %>
+      <div class="form_image">
+        <%= f.file_field :image %>
+        <%= image_tag(@entry.image.url, class: 'form_image_view') if @entry.image && @entry.image.url %>
+        <%= f.hidden_field :image_cache %>
       </div>
+      <%= f.submit '投稿', class: 'btn_submit' %>
     </div>
-    <div class="form_image">
-      <%= f.file_field :image %>
-      <%= image_tag(@entry.image.url, class: 'form_image_view') if @entry.image && @entry.image.url %>
-      <%= f.hidden_field :image_cache %>
-    </div>
-    <%= f.submit '投稿' %>
   <% end %>
 </div>

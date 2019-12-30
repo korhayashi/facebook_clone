@@ -1,119 +1,162 @@
-<header>
+<header class="top_header">
   <div class="header_menu">
-    <%= icon 'fab', 'facebook-square', class: 'fn_icon' %>
-    <%= link_to "#{current_user.family_name}#{current_user.first_name}", user_path(current_user.id) %>
-    <%= link_to 'ホーム', entries_path %>
-    <%= link_to 'ログアウト', session_path(current_user.id), method: :delete %>
+    <ul>
+      <li>
+        <%= link_to user_path(current_user.id) do %>
+          <% unless current_user.user_image.blank? %>
+            <%= image_tag current_user.user_image.url, class: 'top_header_icon user_icon' %>
+          <% else %>
+            <%= icon 'fas', 'user-circle', class: 'top_header_icon user_icon' %>
+          <% end %>
+      </li>
+      <li>
+        <%= "#{current_user.family_name}#{current_user.first_name}" %>
+        <% end %>
+      </li>
+      <li><%= link_to 'ホーム', entries_path %></li>
+      <li><%= link_to 'ログアウト', session_path(current_user.id), method: :delete %></li>
+    </ul>
   </div>
 </header>
 
-<div class="main">
-  <p>投稿を作成</p>
-  <%= render 'form' %>
+<article class="top_main">
+  <div class="top_main_container">
+    <%= render 'form' %>
 
-  <% @entries.each do |entry| %>
     <div class="posts">
-      <table>
-        <tr>
-          <td rowspan="2">
-            <div class="entry_icon">
-              <% if entry.user.user_image %>
-                <%= image_tag entry.user.user_image.url, class: 'form_user_icon' %>
+      <% @entries.each do |entry| %>
+        <div class="post">
+          <div class="parent_entry">
+            <div class="post_head clearfix">
+              <div class="post_head_left">
+                <div class="entry_icon">
+                  <% unless entry.user.user_image.blank? %>
+                    <%= image_tag entry.user.user_image.url, class: 'user_icon form_user_icon' %>
+                  <% else %>
+                    <%= icon 'fas', 'user-circle', class: 'user_icon form_user_icon' %>
+                  <% end %>
+                </div>
+                <div class="post_name_and_time">
+                  <%= link_to user_path(entry.user.id) do %>
+                    <div class="post_name">
+                      <%= "#{entry.user.family_name}#{entry.user.first_name}" %>
+                    </div>
+                  <% end %>
+                  <div class="created_at">
+                    <% if time_ago_in_words(entry.created_at).include?('以内') %>
+                      <%= time_ago_in_words(entry.created_at) %>
+                    <% else %>
+                      <%= time_ago_in_words(entry.created_at)+'前' %>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+              <div class="post_head_right">
+                <% if current_user.id == entry.user_id %>
+                  <div class="post_edit_or_delete">
+                    <%= link_to edit_entry_path(entry.id) do %>
+                      <%= icon 'fas', 'pen' %>
+                    <% end %>
+                    <%= link_to entry_path(entry.id), method: :delete, data: { confirm: '本当に削除してよろしいですか？' } do %>
+                      <%= icon 'fas', 'trash' %>
+                    <% end %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+
+            <div class="entry_content">
+              <%= entry.content %>
+            </div>
+            <% unless entry.image.blank? %>
+              <div class="entry_image">
+                <%= link_to entry.image.url, target: '_blank' do %>
+                  <%= image_tag entry.image.url, class: 'entry_image_view' %>
+                <% end %>
+              </div>
+            <% end %>
+            <% good_users = entry.good_users %>
+            <% unless good_users.blank? %>
+              <div class="good_users">
+                <div class="good_user_icon">
+                  <%= image_tag '/images/good.png', class: 'good_users_icon' %>
+                </div>
+                <% good_users.each do |u| %>
+                  <%= link_to "#{u.family_name}#{u.first_name}", user_path(u.id), class: 'good_user_name' %>
+                <% end %>
+              </div>
+            <% end %>
+            <% good = current_user.goods.find_by(entry_id: entry.id) %>
+            <div class="good_button">
+              <% if good.present? %>
+                <%= link_to(good_path(id: good.id), method: :delete, class: 'good_btn good_btn_after') do %>
+                  <%= icon 'far', 'thumbs-up' %>
+                  いいね！
+                <% end %>
               <% else %>
-                <%= icon 'fas', 'user-circle', class: 'form_user_icon' %>
+                <%= link_to(goods_path(entry_id: entry.id), method: :post, class: 'good_btn good_btn_before') do %>
+                  <%= icon 'fas', 'thumbs-up' %>
+                  いいね！
+                <% end %>
               <% end %>
             </div>
-          </td>
-          <td>
-            <%= "#{entry.user.family_name}#{entry.user.first_name}" %>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <span class="created_at">
-              <% if time_ago_in_words(entry.created_at).include?('以内') %>
-                <%= time_ago_in_words(entry.created_at) %>
-              <% else %>
-                <%= time_ago_in_words(entry.created_at)+'前' %>
-              <% end %>
-            </span>
-          </td>
-        </tr>
-      </table>
-      <% if current_user.id == entry.user_id %>
-        <%= link_to '投稿の編集', edit_entry_path(entry.id) %>
-        <%= link_to '削除', entry_path(entry.id), method: :delete, data: { confirm: '本当に削除してよろしいですか？' } %>
-      <% end %>
-        <div class="entry_content">
-          <%= entry.content %>
-        </div>
-        <% unless entry.image.blank? %>
-          <div class="entry_image">
-            <%= image_tag entry.image.url, class: 'entry_image_view' %>
           </div>
-        <% end %>
-        <% good_users = entry.good_users %>
-        <% unless good_users.blank? %>
-          <div class="good_users">
-            <%= image_tag '/images/good.png', class: 'good_users_icon' %>
-            <% good_users.each do |u| %>
-              <%= link_to "#{u.family_name}#{u.first_name}", user_path(u.id) %>
-            <% end %>
-          </div>
-          <% end %>
-        <% good = current_user.goods.find_by(entry_id: entry.id) %>
-        <% if good.present? %>
-          <%= link_to(good_path(id: good.id), method: :delete, class: 'btn btn_danger') do %>
-            <%= icon 'fas', 'thumbs-up', class: 'btn btn_remove_good' %>
-            解除
-          <% end %>
-        <% else %>
-        <%= link_to(goods_path(entry_id: entry.id), method: :post, class: 'btn btn_primary') do %>
-          <%= icon 'fas', 'thumbs-up', class: 'btn btn_good' %>
-          いいね！
-        <% end %>
-        <% end %>
-        <% child_entries = @child_entries.where(parent_entry_id: entry.id) %>
-        <% if child_entries %>
-          <div class="child_entry">
-            <% child_entries.each do |child_entry| %>
-              <div class="child_entry_top">
-                <% if child_entry.user.user_image %>
-                  <%= image_tag child_entry.user.user_image.url, class: 'form_user_icon' %>
-                <% else %>
-                  <%= icon 'fas', 'user-circle', class: 'child_entry_user_icon' %>
-                <% end %>
-                <%= link_to "#{child_entry.user.family_name}#{child_entry.user.first_name}", user_path(child_entry.user.id) %>
-                <span class="child_entry_content">
-                  <%= child_entry.content %>
-                </span>
-                <span class="child_entry_good_view">
-                  <% child_good_users = child_entry.good_users %>
-                  <% unless child_good_users.blank? %>
-                    <span class="child_good_users">
-                      <%= image_tag '/images/good.png', class: 'good_users_icon' %>
-                      <%= child_good_users.count %>
-                      <% child_good_users.each do |u| %>
-                        <%= "#{u.family_name}#{u.first_name}" %>
+          <% child_entries = @child_entries.where(parent_entry_id: entry.id) %>
+          <% if child_entries %>
+            <div class="child_entry">
+              <% child_entries.each do |child_entry| %>
+                <div class="child_entry_head">
+                  <div class="child_icon">
+                    <% unless child_entry.user.user_image.blank? %>
+                      <%= image_tag child_entry.user.user_image.url, class: 'user_icon rep_user_icon' %>
+                    <% else %>
+                      <%= icon 'fas', 'user-circle', class: 'user_icon rep_user_icon' %>
+                    <% end %>
+                  </div>
+                  <div class="child_hed_set">
+                    <div class="child_name">
+                      <%= link_to "#{child_entry.user.family_name}#{child_entry.user.first_name}", user_path(child_entry.user.id) %>
+                    </div>
+                    <div class="child_content">
+                      <%= child_entry.content %>
+                    </div>
+                  </div>
+                  <div class="child_entry_good_view">
+                    <% child_good_users = child_entry.good_users %>
+                    <% unless child_good_users.blank? %>
+                      <div class="child_good_users">
+                        <%= image_tag '/images/good.png', class: 'good_users_icon' %>
+                        <%= child_good_users.count %>
+                      </div>
+                    <% end %>
+                  </div>
+                  <% if current_user.id == child_entry.user_id %>
+                    <div class="child_entry_edit_or_delete">
+                      <%= link_to edit_entry_path(child_entry.id) do %>
+                        <%= icon 'fas', 'pen' %>
                       <% end %>
-                    </span>
+                      <%= link_to entry_path(child_entry.id), method: :delete, data: { confirm: '本当に削除してよろしいですか？' } do %>
+                        <%= icon 'fas', 'trash' %>
+                      <% end %>
+                    </div>
                   <% end %>
-                </span>
-                <% if current_user.id == child_entry.user_id %>
-                  <span class="child_entry_edit_or_delete">
-                    <%= link_to '編集', edit_entry_path(child_entry.id) %>
-                    <%= link_to '削除', entry_path(child_entry.id), method: :delete, data: { confirm: '本当に削除してよろしいですか？' } %>
-                  </span>
-                <% end %>
+                </div>
                 <div class="child_entry_under">
+                  <% unless child_entry.image.blank? %>
+                    <div class="child_entry_image">
+                      <%= link_to child_entry.image.url, target: '_blank' do %>
+                        <%= image_tag child_entry.image.url, class: 'rep_entry_image_view' %>
+                      <% end %>
+                    </div>
+                  <% end %>
                   <span class="child_entry_good">
                     <% child_good = current_user.goods.find_by(entry_id: child_entry.id) %>
                     <% if child_good.present? %>
-                      <%= link_to(good_path(id: child_good.id), method: :delete, class: 'btn btn_danger') do %>
-                        解除
+                      <%= link_to(good_path(id: child_good.id), method: :delete, class: 'rep_good_after') do %>
+                        いいね！
                       <% end %>
                     <% else %>
-                      <%= link_to(goods_path(entry_id: child_entry.id), method: :post, class: 'btn btn_primary') do %>
+                      <%= link_to(goods_path(entry_id: child_entry.id), method: :post, class: 'rep_good_before') do %>
                         いいね！
                       <% end %>
                     <% end %>
@@ -126,33 +169,35 @@
                     <% end %>
                   </span>
                 </div>
-              </div>
-            <% end %>
-          </div>
-        <% end %>
-        <div class="child_entry_form">
-          <%= form_with(model: @entry, local: true, url: choose_index_or_edit) do |f| %>
-            <div class="child_form_content">
-              <%= f.hidden_field :parent_entry_id, value: entry.id %>
-              <div class="form_icon">
-                <% if current_user.user_image %>
-                  <%= image_tag current_user.user_image.url, class: 'form_user_icon' %>
-                <% else %>
-                  <%= icon 'fas', 'user-circle', class: 'form_user_icon' %>
-                <% end %>
-              </div>
-              <div class="form_text">
-                <%= f.text_field :content, placeholder: 'コメントする...' %>
-              </div>
+              <% end %>
             </div>
-            <div class="form_image">
-              <%= f.file_field :image %>
-              <%= image_tag(@entry.image.url, class: 'form_image_view') if @entry.image && @entry.image.url %>
-              <%= f.hidden_field :image_cache %>
+            <div class="child_entry_form">
+              <%= form_with(model: @entry, local: true, url: choose_index_or_edit) do |f| %>
+                <div class="child_form_head">
+                  <%= f.hidden_field :parent_entry_id, value: entry.id %>
+                  <div class="form_icon">
+                    <% unless current_user.user_image.blank? %>
+                      <%= image_tag current_user.user_image.url, class: 'user_icon rep_user_icon' %>
+                    <% else %>
+                      <%= icon 'fas', 'user-circle', class: 'user_icon rep_user_icon' %>
+                    <% end %>
+                  </div>
+                  <div class="form_text">
+                    <%= f.text_field :content, placeholder: 'コメントする...' %>
+                  </div>
+                </div>
+                <div class="form_image">
+                  <%= f.file_field :image %>
+                  <%= image_tag(@entry.image.url, class: 'form_image_view') if @entry.image && @entry.image.url %>
+                  <%= f.hidden_field :image_cache %>
+                </div>
+                <%= f.submit '投稿', class: 'btn_submit' %>
+              <% end %>
             </div>
-            <%= f.submit '投稿' %>
           <% end %>
         </div>
-    <% end %>
+      <% end %>
+
+    </div>
   </div>
-</div>
+</article>
